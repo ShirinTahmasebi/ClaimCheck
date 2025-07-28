@@ -1,0 +1,21 @@
+/data
+/checkpoints
+/.ipynb_checkpoints/
+**/__pycache__
+
+
+/.env.development
+.run/
+/trace.log
+/.claim_check_env
+
+# Numerous always-ignore extensions
+*.diff
+*.err
+*.orig
+*.log
+*.rej
+*.swo
+*.swp
+*.vi
+*.out
