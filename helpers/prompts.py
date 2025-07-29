@@ -3,24 +3,24 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
-INSTRUCTION_ZEROSHOT_FLAT = """
+SYSTEM_PROMPT_FLAT = """
 You are an expert in climate misinformation detection. Given a climate-related claim, your task is to classify it into one of the predefined sub-claim categories listed below. 
+"""
 
+INSTRUCTION_FLAT = """
 Contrarian claims are statements that reject, cast doubt on, or misrepresent the scientific consensus on human-caused climate change.
 
 If the claim does not express a contrarian view, return 0_0: No Claim.
 
-Choose only the most appropriate category and GENERATE ONLY THE NUMBER CORRESPONDING TO THAT CATEGORY. DO NOT GENERATE ANY OTHER WORD OR ANY EXPLANATION.
+Choose only the most appropriate category and GENERATE ONLY THE NUMBER CORRESPONDING TO THAT CATEGORY. DO NOT GENERATE ANY EXPLANATION.
 """
 
-INSTRUCTION_ZEROSHOT_HIER_0 = """
-You are an expert in climate misinformation detection. Given a climate-related claim, your task is to classify it into one of the predefined claim categories listed below. 
-
+INSTRUCTION_HIER_0 = """
 Contrarian claims are statements that reject, cast doubt on, or misrepresent the scientific consensus on human-caused climate change.
 
 If the claim does not express a contrarian view, return 0: No Claim.
 
-Choose only the most appropriate category and GENERATE ONLY THE NUMBER CORRESPONDING TO THAT CATEGORY. DO NOT GENERATE ANY OTHER WORD OR ANY EXPLANATION.
+Choose only the most appropriate category and GENERATE ONLY THE NUMBER CORRESPONDING TO THAT CATEGORY. DO NOT GENERATE ANY EXPLANATION.
 """
 
 
@@ -36,7 +36,5 @@ Here is the subclaim categories:
 """
 
 SUB_CLAIM_CATEGORIES = f"""
-Here is the subclaim categories:
-
 {sub_claim_categories_text}
 """

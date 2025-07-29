@@ -4,7 +4,7 @@ import torch
 import sys
 sys.path.append("..")
 
-from config import LLMConfig, QwenConfig, GemmaConfig
+from llm_utils.llm_config import LLMConfig, QwenConfig, GemmaConfig
 
 class LLMWrapper(ABC):
     
@@ -15,7 +15,7 @@ class LLMWrapper(ABC):
         self.use_chat_style = use_chat_style
         self.model, self.tokenizer = self.initialize_model_tokenizer()
 
-    def __call__(self, instruction, examples, input):
+    def __call__(self, instruction, examples:list, input):
         return self.call_llm(instruction, examples, input)
         
     @classmethod
@@ -27,11 +27,22 @@ class LLMWrapper(ABC):
         if llm_type == LLMTypes.GEMMA:
             return GemmaModel(LLMTypes.GEMMA.value, ACCESS_KEYS.HF_TOKEN, use_chat_style)
        
-    def call_llm(self, instruction, examples, input) -> str:
+    def call_llm(self, instruction, examples:list, input) -> str:
+        examples = ""
+        if not examples:
+            examples = None
+        else:
+            for example_item in examples:
+                examples += f"Input: {example_item['text']} \nAnswer: {example_item['label']} \n\n"
+
         formatted_text = self.format_prompt(instruction, examples, input)
-        print(f"The formatted text passed to the llm is: \n {formatted_text}")
-        print("-------")
         raw_response = self.generate(formatted_text)
+        raw_response = raw_response if bool(raw_response) else ""
+
+        import re
+        raw_response = raw_response.strip()
+        raw_response = re.sub(r'\s+', ' ', raw_response)
+
         final_response = self.post_process_response(raw_response)
         return final_response
 
@@ -44,7 +55,7 @@ class LLMWrapper(ABC):
         raise NotImplementedError(f"The generation config is not defined for {self.__class__.__name__}.")
     
     @abstractmethod
-    def format_prompt(self, instruction:str, examples:list[str], input:str) -> str:
+    def format_prompt(self, instruction:str, examples:str, input:str) -> str:
         raise NotImplementedError(f"The prompt formatter is not defined for {self.__class__.__name__}.")
     
     @abstractmethod
@@ -71,8 +82,13 @@ class HFModels(LLMWrapper, ABC):
 
     def generate(self, input_text: str) -> str:
         input_ids = self.tokenizer(input_text, return_tensors='pt').input_ids
-        outputs = self.model.generate(input_ids=input_ids, generation_config=self.get_generation_config())
-        output = outputs[0][len(input_ids[0]):].tolist() 
+        outputs = self.model.generate(
+            input_ids=input_ids, 
+            eos_token_id=self.tokenizer.eos_token_id,
+            pad_token_id=self.tokenizer.pad_token_id,
+            generation_config=self.get_generation_config()
+        )
+        output = outputs[0][len(input_ids[0]):].tolist()
         text_output = self.tokenizer.decode(output, skip_special_tokens=True)
         return text_output
 
@@ -83,7 +99,7 @@ class QwenModel(HFModels):
             return raw_response.split("</think>")[-1]
         return raw_response
     
-    def format_prompt(self, instruction:str, examples:list[str], input:str) -> str:
+    def format_prompt(self, instruction:str, examples:str, input:str) -> str:
         if self.use_chat_style:
             messages = [{"role": "user", "content": input}]
             chat_style_input = self.tokenizer.apply_chat_template(
@@ -110,10 +126,10 @@ class QwenModel(HFModels):
 
 class GemmaModel(HFModels):
     def post_process_response(self, raw_response):
-        final_response = raw_response.split("<eos>")[0]
+        final_response = raw_response.split("<end_of_turn>")[0]
         return final_response
 
-    def format_prompt(self, instruction:str, examples:list[str], input:str) -> str:
+    def format_prompt(self, instruction:str, examples:str, input:str) -> str:
         if examples:
             return f"{instruction} \n\n Here are some examples: \n {examples} \n\n {input}"
         return f"{instruction} \n\n {input}"

@@ -36,8 +36,9 @@ rag = RagManager(
 
 
 input_sentence = "After a short protest from Massachusetts Republicans in their state Senate, the commonwealth is on the verge of changing its law to allow Gov. Deval Patrick (D) to appoint an interim Senator until the election to fill the late Sen. Edward Kennedy's spot can be held in January."
-examples, labels, scores = rag.select(input_sentence, ExampleSelectionPolicy.MOST_SIMILAR)
+examples, labels_code, labels_text, scores = rag.select(input_sentence, ExampleSelectionPolicy.MOST_SIMILAR)
 
 print(examples)
-print(labels)
+print(labels_code)
+print(labels_text)
 print(scores)

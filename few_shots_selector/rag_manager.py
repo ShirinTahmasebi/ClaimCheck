@@ -51,6 +51,7 @@ class RagManager:
             s, indices = self.index.search(query_emb, k)
             scores = s[0]
             examples = list(self.sentences_and_labels_list.select(list(indices[0]))["text"])
-            labels = list(self.sentences_and_labels_list.select(list(indices[0]))["sub_claim"])
+            labels_code = list(self.sentences_and_labels_list.select(list(indices[0]))["sub_claim_code"])
+            labels_text = list(self.sentences_and_labels_list.select(list(indices[0]))["sub_claim"])
 
-        return examples, labels, scores
+        return examples, labels_code, labels_text, scores

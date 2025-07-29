@@ -5,6 +5,8 @@ DATASET_VALIDATION_URL = f"{DATASET_BASE_URL}/validation.csv"
 
 from helpers.utils import get_absolute_path
 RAG_PATH = get_absolute_path("data/rag_train_data")
+RESULT_PATH_ZERO = get_absolute_path("results/zero_{}")
+RESULT_PATH_FEW = get_absolute_path("results/few_{}")
 
 
 LABEL_CLAIM_CATEGORIES = {
@@ -36,3 +38,5 @@ LABEL_SUB_CLAIM_CATEGORIES = {
     "5_1": "Climate-related science is unreliable/uncertain/unsound (data, methods & models)",
     "5_2": "Climate movement is unreliable/alarmist/corrupt"
 }
+
+INVALID_PREDICTION = "-1"
