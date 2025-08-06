@@ -8,6 +8,10 @@
 I implemented and compared several solution strategies, designed across the three assignment phases. 
 
 
+$${\color{red}Welcome} \space {\color{lightblue}To } \space {\color{lightgreen}Github}$$
+
+<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/claimcheck_2.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
+
 
 ### Phase 1: Zero-Shot Prompting (`ClaimCheck::ZeroFlat`)
 
