@@ -47,22 +47,26 @@ As is mentioned in the assignment, advanced techniques such as full model fine-t
 
 
 So, considering the above points, I propose the following methods:
-1. CoT Prompting: I explored two variants of CoT prompting:
+
+#### Phase 3 - Solution 1: CoT Prompting
+I explored two variants of CoT prompting:
   * Instructional CoT (`ClaimCheck::CoTFlat::Instruction`): The prompt explicitly outlines a step-by-step reasoning procedure and instructs the model to follow this structured thinking process when making predictions.
   * Few-shot CoT with Rationales (`ClaimCheck::CoTFlat::FewShot`): This variant adds example inputs to the prompt, each annotated with both a final label and a concise rationale explaining the reasoning behind the classification. These rationales were generated using an LLM and then curated and refined to ensure clarity and consistency across examples.
 
 <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - CoT.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
 
 
-2. Hierarchical Classification: Since the classification task includes several classes, I designed a two-stage classification pipeline:
+#### Phase 3 - Solution 2:  Hierarchical Classification (`ClaimCheck::ZeroHier`)
+
+Since the classification task includes several classes, I designed a two-stage classification pipeline:
    * Claim Classification: Classify the type of the claim in the input.
    * Sub-Claim Classification: According to the detected claim class, classify the input into one of the relevant sub-claims,
 
-  This hierarchical structure can be applied on both zero-shot (`ClaimCheck::ZeroHier`) and few-shot (`ClaimCheck::FewShotHier::[example_selection_strategy]`) variants. Here is the general overview of this solution:
+This hierarchical structure can be applied on both zero-shot (`ClaimCheck::ZeroHier`) and few-shot (`ClaimCheck::FewShotHier::[example_selection_strategy]`) variants. Here is the general overview of this solution:
   
-  <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - ZeroHier.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
+<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - ZeroHier.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
 
-3. Contextual Bandit Learning (`ClaimCheck::Bandit`):
+#### Phase 3 - Solution 3: Contextual Bandit Learning (`ClaimCheck::Bandit`)
 This approach combines a contextual bandit for **claim** classification with an LLM for **sub-claim** prediction.
 
 * Why to use this appraoch instead of multi-arm bandit? I decided to use a contextual bandit instead of a multi-armed bandit because the optimal action depends on the input context.
@@ -73,7 +77,7 @@ This approach combines a contextual bandit for **claim** classification with an 
    * Action: The claim category predicted by the contextual bandit's MLP policy head.
    * Reward: Binary feedback (1 if the predicted claim matches the gold label, otherwise 0)
 
- The below diagram shows the inference for this approach.
+The below diagram shows the inference for this approach.
   <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - Bandit.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
 
 # Evaluation
