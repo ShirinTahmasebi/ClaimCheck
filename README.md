@@ -72,10 +72,10 @@ This approach combines a contextual bandit for **claim** classification with an 
 * Why to use this appraoch instead of multi-arm bandit? I decided to use a contextual bandit instead of a multi-armed bandit because the optimal action depends on the input context.
 * `ClaimCheck::Bandit` vs. `ClaimCheck::ZeroHier`: This approach uses lightweight bandit-based claim detection rather than using an llm as claim classifier to reduce computational cost. This is especially beneficial because the "0_0: No Claim" category appears frequently in the dataset; detecting it efficiently avoids unnecessary LLM calls.
 * Task formulation as Contextual Bandit problem:
-   * State: The [CLS] embedding of the input sentence, extracted by a BERT encoder.
-   * Context: The semantic representation of the specific input sentence (state and context are equivalent here).
-   * Action: The claim category predicted by the contextual bandit's MLP policy head.
-   * Reward: Binary feedback (1 if the predicted claim matches the gold label, otherwise 0)
+   * **State**: The [CLS] embedding of the input sentence, extracted by a BERT encoder.
+   * **Context**: The semantic representation of the specific input sentence (state and context are equivalent here).
+   * **Action**: The claim category predicted by the contextual bandit's MLP policy head.
+   * **Reward**: Binary feedback (1 if the predicted claim matches the gold label, otherwise 0)
 
 The below diagram shows the inference for this approach.
   <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - Bandit.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
