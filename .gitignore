@@ -4,11 +4,11 @@
 **/__pycache__
 
 
-/.env.development
+/src/.env.development
 .run/
 /trace.log
 /.claim_check_env
-/results
+/src/results
 
 # Numerous always-ignore extensions
 *.diff
