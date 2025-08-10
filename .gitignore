@@ -8,7 +8,6 @@
 .run/
 /trace.log
 /.claim_check_env
-/src/results
 
 # Numerous always-ignore extensions
 *.diff
