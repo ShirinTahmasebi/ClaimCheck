@@ -36,7 +36,7 @@ I implemented and compared several solution strategies, designed across the thre
 In `ClaimCheck::ZeroFlat`, I designed a simple prompt that introduces the task and asks the model to classify a climate-related claim into one of the predefined sub-claim categories. The prompt includes an explanation of what a contrarian claim is, to help the model distinguish between non-claims and  contrarian arguments:
 
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - Zero 2.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
+<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Zero 2.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
 
 
 ### Phase 2: Few-Shot Prompting (`ClaimCheck::FewShotFlat::[example_selection_strategy]`)
@@ -46,7 +46,7 @@ In the few-shot setting, I hypothesize that the type of examples included in the
 * $${\color{purple}\text{Similarity-Based (RAG-like)}}$$: Constructs a vector store over the training dataset and dynamically retrieves the most similar examples based on the input claim. (a.k.a., `ClaimCheck::FewShotFlat::Similar`)
 * $${\color{purple}\text{Counterfactual}}$$: Selects both the most similar and least similar examples for contrastive reasoning, helping the model better learn the decision boundaries. (a.k.a., `ClaimCheck::FewShotFlat::Counterfactual`)
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - Few.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
+<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Few.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
 
 ### Phase 3: Proposed Methods ("Whatever You Want")
 
@@ -62,7 +62,7 @@ I explored two variants of CoT prompting:
   * $${\color{teal}\text{Instructional CoT}}$$ (`ClaimCheck::CoTFlat::Instruction`): The prompt explicitly outlines a step-by-step reasoning procedure and instructs the model to follow this structured thinking process when making predictions.
   * $${\color{teal}\text{Few-shot CoT with Rationales}}$$ (`ClaimCheck::CoTFlat::FewShot`): This variant adds example inputs to the prompt, each annotated with both a final label and a concise rationale explaining the reasoning behind the classification. These rationales were generated using an LLM and then curated and refined to ensure clarity and consistency across examples.
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - CoT.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
+<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - CoT.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
 
 
 #### Phase 3 - Solution 2:  Hierarchical Classification (`ClaimCheck::ZeroHier`)
@@ -73,7 +73,7 @@ Since the classification task includes several classes, I designed a two-stage c
 
 This hierarchical structure can be applied on both zero-shot (`ClaimCheck::ZeroHier`) and few-shot (`ClaimCheck::FewShotHier::[example_selection_strategy]`) variants. Here is the general overview of this solution:
   
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - ZeroHier.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
+<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - ZeroHier.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
 
 #### Phase 3 - Solution 3: Contextual Bandit Learning (`ClaimCheck::Bandit`)
 This approach combines a contextual bandit for **claim** classification with an LLM for **sub-claim** prediction.
@@ -87,7 +87,7 @@ This approach combines a contextual bandit for **claim** classification with an 
    * **Reward**: $${\color{olive}\text{Binary}}$$ feedback (1 if the predicted claim matches the gold label, otherwise 0)
 
 The below diagram shows the inference for this approach.
-  <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - Bandit.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
+  <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Bandit.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
 
 #### Phase 3 - Solution 4: KL-Divergence Finetuning (`ClaimCheck::KL`)
 
@@ -95,7 +95,7 @@ In this approach, I leveraged an LLM with a classification head to predict a pro
 
 This process is illustrated in the figure, showing the training phase, where KL-divergence loss guides parameter updates, and the inference phase, where the trained model outputs sub-claim probabilities for given inputs.  
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/ClaimCheck - KL.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
+<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - KL.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
 
 
 # Evaluation
