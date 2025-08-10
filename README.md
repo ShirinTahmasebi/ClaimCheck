@@ -1,7 +1,21 @@
 # ClaimCheck
 
 
-## How to run?
+In this small project, I propose and implement a set of solution named `ClaimCheck` set. Each of the solutions in `ClaimCheck` are described in detail in the [Solution](https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/README.md#solution) section. 
+
+The codebase is designed to be super flexible: different types of LLMs, example selection strategies, or configuration settings can be swapped in or extended with minimal changes. 
+
+To run any solution, simply execute the provided terminal command while specifying the solution name you wish to test. This modular design ensures that adding new methods or experimenting with alternative model configurations can be done quickly and cleanly.
+
+```bash
+python run.py --solution ClaimCheck::FewShotFlat::Similar
+```
+Or, 
+
+```bash
+python run.py --solution ClaimCheck::FewShotFlat::Similar
+```
+
 
 ## Solution
 
