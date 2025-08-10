@@ -108,7 +108,7 @@ I implemented and evaluated several of the proposed approaches using the validat
 
 ## Precision, Recall, F1 Score 
 
-In this section,  I have three table to show the precision, recall, and F1 score accross the three methods , , and . The results are also reported per claim and per subclaim.
+In this section,  I have three tables to show the precision, recall, and F1 score accross the three methods `ClaimCheck::ZeroFlat`, `ClaimCheck::FewShotFlat::Similar`, and `ClaimCheck::ZeroHier`. The results are also reported per claim and per subclaim.
 
 The figure below shows the results for `ClaimCheck::ZeroFlat`.
 
@@ -124,11 +124,11 @@ For `ClaimCheck::ZeroHier`, the results are as below:
 
 ### Main Takeaways
 Here are the main takeaways from the above three tables:
-* Claim "0" / Subclaim "0_0" are trivial for all models.
-* Except subclaim "0_0", `ClaimCheck::ZeroHier` underperforms compared to `ClaimCheck::ZeroFlat` and `ClaimCheck::FewShotFlat::Similar`, indicating that the hierarchical constraint may mislead when claims are more nuanced or overlapping.
-* Performance is claim-dependent for  `ClaimCheck::ZeroFlat` and `ClaimCheck::FewShotFlat::Similar`. This means that certain categories benefit more from richer contextual examples, while others benefit from shorter, more focused prompts. Potential reasons for this might be:
-  * Long Input Effect: Long few-shot prompts may confuse the model, especially for categories where training examples are long.
-  * Position Bias: When the prompt is long, earlier examples can negatively affect predictions. However, class "0_0" is safe because its examples are short and less noisy.
+* Claim "0" / Subclaim "0_0" are $${\color{brown}\text{trivial}}$$ for all models.
+* Except subclaim "0_0", `ClaimCheck::ZeroHier` $${\color{brown}\text{underperforms}}$$ compared to `ClaimCheck::ZeroFlat` and `ClaimCheck::FewShotFlat::Similar`, indicating that the hierarchical constraint may mislead when claims are more nuanced or overlapping.
+* Performance is $${\color{brown}\text{claim-dependent}}$$ for `ClaimCheck::ZeroFlat` and `ClaimCheck::FewShotFlat::Similar`. This means that certain categories benefit more from richer contextual examples, while others benefit from shorter, more focused prompts. Potential reasons for this might be:
+  * $${\color{brown}\text{Long Input Effect:}}$$ Long few-shot prompts may confuse the model, especially for categories where training examples are long.
+  * $${\color{brown}\text{Position Bias:}}$$ When the prompt is long, earlier examples can negatively affect predictions. However, class "0_0" is safe because its examples are short and less noisy.
 
 
 
@@ -151,7 +151,7 @@ To do more analysis, we need to have the confusion matrix to check whether error
 ### Main Takeaways
 
 Based on the above 6 heatmaps, we can draw the below conclusions:
-* The `ClaimCheck::ZeroHier` method is not suitable for claim-level prediction (because the errors at the top-level propagates to the other levels).
+* The `ClaimCheck::ZeroHier` method is not suitable for claim-level prediction (because the errors at the top-level propagates to the other level).
 * The `ClaimCheck::ZeroFlat` method is slightly worse than `ClaimCheck::FewShotFlat::Similar` on claim "1", but similar confusion patterns overall.
 * The `ClaimCheck::FewShotFlat::Similar` method is the best one for claim "1" and relatively good for other, but it confuses these claims: claim "2" with claim "3" and claim "5" with claim "1".
 * Claim "3" is the most blurry (or noisy) category.
