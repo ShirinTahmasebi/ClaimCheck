@@ -24,6 +24,11 @@ print(f"Size of train: {len(train_data)}")
 print(f"Size of val: {len(val_data)}")
 print(f"Size of test: {len(test_data)}")
 
+# Size of train: 23436
+# Size of val: 2605
+# Size of test: 2904
+
+
 print(train_data.info.description)
 print(train_data.info.features) 
 

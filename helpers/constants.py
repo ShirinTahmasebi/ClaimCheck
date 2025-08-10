@@ -7,7 +7,7 @@ from helpers.utils import get_absolute_path
 RAG_PATH = get_absolute_path("data/rag_train_data")
 RESULT_PATH_ZERO = get_absolute_path("results/zero_{}")
 RESULT_PATH_FEW = get_absolute_path("results/few_{}")
-
+RESULT_PATH_FEW_STATIC = get_absolute_path("results/few_static_{}")
 
 LABEL_CLAIM_CATEGORIES = {
     "0": "No claim",

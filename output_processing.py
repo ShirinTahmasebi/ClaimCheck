@@ -1,4 +1,4 @@
-def process_output_zero_hier(llm_response: str) -> str:
+def process_output_claim(llm_response: str) -> str:
     import re
     from helpers.constants import INVALID_PREDICTION
 
@@ -9,7 +9,7 @@ def process_output_zero_hier(llm_response: str) -> str:
     return found_numbers[0] 
 
 
-def process_output_flat(llm_response: str) -> str:
+def process_output_subclaim(llm_response: str) -> str:
     import re
     from helpers.constants import LABEL_SUB_CLAIM_CATEGORIES, INVALID_PREDICTION
 

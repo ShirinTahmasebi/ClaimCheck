@@ -44,7 +44,10 @@ class RagManager:
         if selection_policy == ExampleSelectionPolicy.RANDOM:
             pass
         elif selection_policy == ExampleSelectionPolicy.ONE_PER_CLASS:
-            pass
+            from few_shots_selector.static_examples_per_class import examples
+            texts = [item["text"] for item in examples]
+            labels_code = [item["sub_claim_code"] for item in examples]
+            labels_text = [item["sub_claim"] for item in examples]
         elif selection_policy == ExampleSelectionPolicy.LEAST_SIMILAR:
             pass
         elif selection_policy == ExampleSelectionPolicy.MOST_SIMILAR:
