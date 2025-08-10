@@ -8,14 +8,24 @@ The codebase is designed to be super flexible: different types of LLMs, example 
 To run any solution, simply execute the provided terminal command while specifying the solution name you wish to test. This modular design ensures that adding new methods or experimenting with alternative model configurations can be done quickly and cleanly.
 
 ```bash
-python run.py --solution ClaimCheck::FewShotFlat::Similar
+python -m venv .claim_check_env
+source .claim_check_env/bin/activate
+pip install -r requirements.txt
 ```
+
+Note: Put the HF Token in the `.env.development.template` and rename the file to `.env.development`
+
+```bash
+python flat_inference.py --solution "ClaimCheck::FewShotFlat::Similar"
+```
+
 Or, 
 
 ```bash
-python run.py --solution ClaimCheck::FewShotFlat::Similar
+python hierarchical_inference.py --solution "ClaimCheck::ZeroHier"
 ```
 
+The solution argument can be replace by the name of any other solution.
 
 ## Solution
 
@@ -92,4 +102,4 @@ This process is illustrated in the figure, showing the training phase, where KL-
 
 
 
-
+I implemented and evaluated several of the proposed approaches using the validation and test splits of the provided dataset. All experiments were conducted with the `google/gemma-2-2b-it` language model. Due to the limited computational resources available to me and the time required to run these experiments, I was unable to get the complete set of results. However, I would be happy to implement and execute the rest in the future if needed.
