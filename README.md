@@ -36,7 +36,7 @@ I implemented and compared several solution strategies, designed across the thre
 In `ClaimCheck::ZeroFlat`, I designed a simple prompt that introduces the task and asks the model to classify a climate-related claim into one of the predefined sub-claim categories. The prompt includes an explanation of what a contrarian claim is, to help the model distinguish between non-claims and  contrarian arguments:
 
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Zero 2.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
+<p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Zero 2.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/></p>
 
 
 ### Phase 2: Few-Shot Prompting (`ClaimCheck::FewShotFlat::[example_selection_strategy]`)
@@ -46,7 +46,7 @@ In the few-shot setting, I hypothesize that the type of examples included in the
 * $${\color{purple}\text{Similarity-Based (RAG-like)}}$$: Constructs a vector store over the training dataset and dynamically retrieves the most similar examples based on the input claim. (a.k.a., `ClaimCheck::FewShotFlat::Similar`)
 * $${\color{purple}\text{Counterfactual}}$$: Selects both the most similar and least similar examples for contrastive reasoning, helping the model better learn the decision boundaries. (a.k.a., `ClaimCheck::FewShotFlat::Counterfactual`)
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Few.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
+<p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Few.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/></p>
 
 ### Phase 3: Proposed Methods ("Whatever You Want")
 
@@ -62,7 +62,7 @@ I explored two variants of CoT prompting:
   * $${\color{teal}\text{Instructional CoT}}$$ (`ClaimCheck::CoTFlat::Instruction`): The prompt explicitly outlines a step-by-step reasoning procedure and instructs the model to follow this structured thinking process when making predictions.
   * $${\color{teal}\text{Few-shot CoT with Rationales}}$$ (`ClaimCheck::CoTFlat::FewShot`): This variant adds example inputs to the prompt, each annotated with both a final label and a concise rationale explaining the reasoning behind the classification. These rationales were generated using an LLM and then curated and refined to ensure clarity and consistency across examples.
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - CoT.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/>
+<p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - CoT.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="500"/></p>
 
 
 #### Phase 3 - Solution 2:  Hierarchical Classification (`ClaimCheck::ZeroHier`)
@@ -73,7 +73,7 @@ Since the classification task includes several classes, I designed a two-stage c
 
 This hierarchical structure can be applied on both zero-shot (`ClaimCheck::ZeroHier`) and few-shot (`ClaimCheck::FewShotHier::[example_selection_strategy]`) variants. Here is the general overview of this solution:
   
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - ZeroHier.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
+<p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - ZeroHier.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/></p>
 
 #### Phase 3 - Solution 3: Contextual Bandit Learning (`ClaimCheck::Bandit`)
 This approach combines a contextual bandit for **claim** classification with an LLM for **sub-claim** prediction.
@@ -87,7 +87,7 @@ This approach combines a contextual bandit for **claim** classification with an 
    * **Reward**: $${\color{olive}\text{Binary}}$$ feedback (1 if the predicted claim matches the gold label, otherwise 0)
 
 The below diagram shows the inference for this approach.
-  <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Bandit.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
+  <p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Bandit.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/></p>
 
 #### Phase 3 - Solution 4: KL-Divergence Finetuning (`ClaimCheck::KL`)
 
@@ -95,7 +95,7 @@ In this approach, I leveraged an LLM with a classification head to predict a pro
 
 This process is illustrated in the figure, showing the training phase, where KL-divergence loss guides parameter updates, and the inference phase, where the trained model outputs sub-claim probabilities for given inputs.  
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - KL.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/>
+<p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - KL.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/></p>
 
 
 # Evaluation
@@ -112,11 +112,11 @@ In this section,  I have three table to show the precision, recall, and F1 score
 
 The figure below shows the results for `ClaimCheck::ZeroFlat`.
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ZeroFlat.png" alt="" width="500"/>
+<p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ZeroFlat.png" alt="" width="500"/></p>
 
 The results for `ClaimCheck::FewShotFlat::Similar` are also reported in the following figure. 
 
-<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/FewShotFlat.png" alt="" width="500"/>
+<p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/FewShotFlat.png" alt="" width="500"/></p>
 
 For `ClaimCheck::ZeroHier`, the results are as below: 
 
@@ -134,7 +134,7 @@ Here are the main takeaways from the above three tables:
 
 ## Confusion Matrix
 
-To do more analysis, we need to have the confusion matrix to check whether errors are due to confusion between subclaims within the same claim vs. completely wrong claim prediction. The first row of images are for claim classification, and the second row for sub-claim classification.
+To do more analysis, we need to have the confusion matrix to check whether errors are due to confusion between subclaims within the same claim vs. completely wrong claim prediction. The first row of images are for claim classification, and the second row for sub-claim classification. (Sorry for the small font!)
 
 <p align="center">
  <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/src/results/images/confusion_matrix_claim_zero_flat.png" alt="ZeroFlat" width="30%"/>
@@ -149,3 +149,9 @@ To do more analysis, we need to have the confusion matrix to check whether error
 </p>
 
 ### Main Takeaways
+
+Based on the above 6 heatmaps, we can draw the below conclusions:
+* The `ClaimCheck::ZeroHier` method is not suitable for claim-level prediction (because the errors at the top-level propagates to the other levels).
+* The `ClaimCheck::ZeroFlat` method is slightly worse than `ClaimCheck::FewShotFlat::Similar` on claim "1", but similar confusion patterns overall.
+* The `ClaimCheck::FewShotFlat::Similar` method is the best one for claim "1" and relatively good for other, but it confuses these claims: claim "2" with claim "3" and claim "5" with claim "1".
+* Claim "3" is the most blurry (or noisy) category.
