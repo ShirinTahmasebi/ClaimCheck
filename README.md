@@ -103,3 +103,49 @@ This process is illustrated in the figure, showing the training phase, where KL-
 
 
 I implemented and evaluated several of the proposed approaches using the validation and test splits of the provided dataset. All experiments were conducted with the `google/gemma-2-2b-it` language model. Due to the limited computational resources available to me and the time required to run these experiments, I was unable to get the complete set of results. However, I would be happy to implement and execute the rest in the future if needed.
+
+
+
+## Precision, Recall, F1 Score 
+
+In this section,  I have three table to show the precision, recall, and F1 score accross the three methods , , and . The results are also reported per claim and per subclaim.
+
+The figure below shows the results for `ClaimCheck::ZeroFlat`.
+
+<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ZeroFlat.png" alt="" width="500"/>
+
+The results for `ClaimCheck::FewShotFlat::Similar` are also reported in the following figure. 
+
+<img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/FewShotFlat.png" alt="" width="500"/>
+
+For `ClaimCheck::ZeroHier`, the results are as below: 
+
+<p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ZeroHier.png" alt="" width="500"/></p>
+
+### Main Takeaways
+Here are the main takeaways from the above three tables:
+* Claim "0" / Subclaim "0_0" are trivial for all models.
+* Except subclaim "0_0", `ClaimCheck::ZeroHier` underperforms compared to `ClaimCheck::ZeroFlat` and `ClaimCheck::FewShotFlat::Similar`, indicating that the hierarchical constraint may mislead when claims are more nuanced or overlapping.
+* Performance is claim-dependent for  `ClaimCheck::ZeroFlat` and `ClaimCheck::FewShotFlat::Similar`. This means that certain categories benefit more from richer contextual examples, while others benefit from shorter, more focused prompts. Potential reasons for this might be:
+  * Long Input Effect: Long few-shot prompts may confuse the model, especially for categories where training examples are long.
+  * Position Bias: When the prompt is long, earlier examples can negatively affect predictions. However, class "0_0" is safe because its examples are short and less noisy.
+
+
+
+## Confusion Matrix
+
+To do more analysis, we need to have the confusion matrix to check whether errors are due to confusion between subclaims within the same claim vs. completely wrong claim prediction. The first row of images are for claim classification, and the second row for sub-claim classification.
+
+<p align="center">
+ <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/src/results/images/confusion_matrix_claim_zero_flat.png" alt="ZeroFlat" width="30%"/>
+ <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/src/results/images/confusion_matrix_claim_few_similar_flat.png" alt="FewShotFlat" width="30%"/>
+ <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/src/results/images/confusion_matrix_claim_zero_hierarchy.png" alt="ZeroHier" width="30%"/>
+</p>
+
+<p align="center">
+ <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/src/results/images/confusion_matrix_subclaim_zero_flat.png" alt="ZeroFlat" width="30%"/>
+ <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/src/results/images/confusion_matrix_subclaim_few_similar_flat.png" alt="FewShotFlat" width="30%"/>
+ <img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/src/results/images/confusion_matrix_subclaim_zero_hierarchy.png" alt="ZeroHier" width="30%"/>
+</p>
+
+### Main Takeaways
