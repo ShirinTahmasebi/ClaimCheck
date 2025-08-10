@@ -75,11 +75,14 @@ This hierarchical structure can be applied on both zero-shot (`ClaimCheck::ZeroH
   
 <p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - ZeroHier.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/></p>
 
+
+$${\color{orange}\text{Pros and Cons}}$$: This approach uses two LLM call per input which is more time-consuming and more expensive.
+
 #### Phase 3 - Solution 3: Contextual Bandit Learning (`ClaimCheck::Bandit`)
 This approach combines a contextual bandit for **claim** classification with an LLM for **sub-claim** prediction.
 
 * $${\color{gray}\text{Why to use this appraoch instead of multi-arm bandit?}}$$ I decided to use a contextual bandit instead of a multi-armed bandit because the optimal action depends on the input context.
-*  $${\color{gray}\text{Comparing}}$$ `ClaimCheck::Bandit` $${\color{gray}\text{vs.}}$$ `ClaimCheck::ZeroHier`: This approach uses lightweight bandit-based claim detection rather than using an llm as claim classifier to reduce computational cost. This is especially beneficial because the "0_0: No Claim" category appears frequently in the dataset; detecting it efficiently avoids unnecessary LLM calls.
+*  $${\color{gray}\text{Comparing}}$$ `ClaimCheck::Bandit` $${\color{gray}\text{vs.}}$$ `ClaimCheck::ZeroHier`: This approach uses lightweight bandit-based claim detection rather than using an LLM as claim classifier to reduce computational cost. This is especially beneficial because the "0_0: No Claim" category appears frequently in the dataset; detecting it efficiently avoids unnecessary LLM calls.
 * Task formulation as Contextual Bandit problem:
    * **State**: The $${\color{olive}\text{[CLS]}}$$ embedding of the input sentence, extracted by a $${\color{olive}\text{BERT}}$$ encoder.
    * **Context**: The semantic representation of the specific input sentence (state and context are equivalent here).
@@ -89,6 +92,8 @@ This approach combines a contextual bandit for **claim** classification with an 
 The below diagram shows the inference for this approach.
   <p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - Bandit.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/></p>
 
+$${\color{orange}\text{Pros and Cons}}$$: This approach relies on training and parameter updating for the MLP in claim classification part. But, since calling an MLP is much efficient than calling an LLM, it is more efficient at runtime than `ClaimCheck::ZeroHier`.
+
 #### Phase 3 - Solution 4: KL-Divergence Finetuning (`ClaimCheck::KL`)
 
 In this approach, I leveraged an LLM with a classification head to predict a probability distribution over sub-claims. The key idea is that, instead of using only one-hot labels, we design a $${\color{brown}\text{hierarchical target distribution}}$$: the gold sub-claim receives the highest probability, other sub-claims from the same claim category receive a smaller share, and unrelated sub-claims receive minimal share. The model is trained to minimize the KL-divergence between its predicted distribution and this target, encouraging it to distinguish between claims and sub-claims.
@@ -97,10 +102,11 @@ This process is illustrated in the figure, showing the training phase, where KL-
 
 <p align="center"><img src="https://github.com/ShirinTahmasebi/ClaimCheck/blob/main/images/ClaimCheck - KL.png" alt="ClaimCheck (Phase 1 and Phase 2)" width="1000"/></p>
 
+$${\color{orange}\text{Pros and Cons}}$$: This approach relies on training and parameter updating for LLM. But, during the runtime, it is more efficeint than `ClaimCheck::ZeroHier` and `ClaimCheck::Bandit`.
+
+
 
 # Evaluation
-
-
 
 I implemented and evaluated several of the proposed approaches using the validation and test splits of the provided dataset. All experiments were conducted with the `google/gemma-2-2b-it` language model. Due to the limited computational resources available to me and the time required to run these experiments, I was unable to get the complete set of results. However, I would be happy to implement and execute the rest in the future if needed.
 
